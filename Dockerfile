@@ -13,6 +13,13 @@ ARG MARIA_VOLUME
 ARG SHJ_DATADIR=/var/shjdata
 ARG SHJ_VOLUME
 
+# to ENV
+ENV SHJ_NAME=${SHJ_NAME}
+ENV SHJ_URI=${SHJ_URI}
+ENV SMTP_HOST=${SMTP_HOST}
+ENV MARIA_DATADIR=${MARIA_DATADIR}
+ENV SHJ_DATADIR=${SHJ_DATADIR}
+
 # package install
 RUN apt-get update && \
     apt-get install -y vim nano git apache2 php php-mysql libapache2-mod-php mariadb-server gcc g++ openjdk-21-jdk python3-all && \
@@ -29,14 +36,14 @@ RUN rm -rf /var/www/html && \
     git clone https://github.com/sanoakr/Sharif-Judge-Docker.git /var/www/html && \
     chown -R www-data:www-data /var/www && \
     # smtp server
-    sed -i -e "s|'public \$smtp_host\s*=\s*'';|public \$smtp_host = '${SMTP_HOST}';|" /var/www/html/system/libraries/Email.php && \
+    sed -i -e "s|public \$smtp_host\s*=\s*'';|public \$smtp_host = '${SMTP_HOST}';|" /var/www/html/system/libraries/Email.php && \
     # tester & assignments
     sed -i -e "s|'shj_value' => '/var/shjdata/tester'|'shj_value' => '${SHJ_DATADIR}/tester'|" /var/www/html/application/controllers/Install.php && \
     sed -i -e "s|'shj_value' => '/var/shjdata/assignments'|'shj_value' => '${SHJ_DATADIR}/assignments'|" /var/www/html/application/controllers/Install.php && \
     # base URI
-    sed -i -e "s|\$config\['url_suffix'\] = '';|\$config['url_suffix'] = '${SHJ_URI}';|" /var/www/html/application/config/config.php && \
+    sed -i -e "s|\$config\['base_url'\]\s*=\s*'';|\$config['base_url'] = '${SHJ_URI}';|" /var/www/html/application/config/config.php && \
     # Title
-    sed -i 's|<h1 class="shjlogo-text">Sharif <span>Judge</span></h1>|<h1 class="shjlogo-text">Sharif <span>Judge</span> for ${SHJ_NAME}</h1>|' /var/www/html/application/views/templates/top_bar.twig && \
+    sed -i -e 's|<h1 class="shjlogo-text">Sharif <span>Judge</span></h1>|<h1 class="shjlogo-text">Sharif <span>Judge</span> for ${SHJ_NAME}</h1>|' /var/www/html/application/views/templates/top_bar.twig && \
     chmod 755 /var/www/html/application/cache/Twig
 
 # make startup script
@@ -45,6 +52,7 @@ RUN echo "#!/bin/bash" > /start.sh && \
    echo "mkdir -p ${SHJ_DATADIR}" >> start.sh && \
    echo "if [ ! -d ${SHJ_DATADIR}/tester ]; then cp -r /var/www/html/tester ${SHJ_DATADIR}/; fi" >> /start.sh && \
    echo "if [ ! -d ${SHJ_DATADIR}/assignments ]; then cp -r /var/www/html/assignments ${SHJ_DATADIR}/; fi" >> start.sh && \
+   echo "chown -R www-data:www-data /var/shjdata" >> /start.sh && \
    # initi database
    echo "if [ -d ${MARIA_DATADIR}/mysql ]; then chown -R mysql:mysql ${MARIA_DATADIR} /var/run/mysqld; mysql_install_db --user=mysql --ldata=${MARIA_DATADIR}; fi" >> start.sh && \
    # init database

@@ -215,7 +215,7 @@ class Install extends CI_Controller
 				array('shj_key' => 'mail_from',              'shj_value' => 'shj@math.ryukoku.ac.jp'),
 				array('shj_key' => 'mail_from_name',         'shj_value' => 'Sharif Judge'),
 				array('shj_key' => 'reset_password_mail',    'shj_value' => "<p>\n{SITE_URL} にあるあなたの Sharif Judge アカウントのパスワードリセットがリクエストされました。\n</p>\n<p>\nパスワードを変更するには、以下のリンクにアクセスしてください：\n</p>\n<p>\n<a href=\"{RESET_LINK}\">パスワードをリセット</a>\n</p>\n<p>\nこのリンクは {VALID_TIME} の間有効です。パスワードを変更する必要がない場合は、このメールを無視してください。\n</p>"),
-				array('shj_key' => 'add_user_mail',          'shj_value' => "<p>\nこんにちは！あなたは {SITE_URL} の Sharif Judge に {ROLE} として登録されました。\n</p>\n<p>\nあなたのユーザー名: {USERNAME}\n</p>\n<p>\nあなたのパスワード: {PASSWORD}\n</p>\n<p>\n以下のリンクからログインできます： <a href=\"{LOGIN_URL}\">{LOGIN_URL}</a>\n</p>\n");
+				array('shj_key' => 'add_user_mail',          'shj_value' => "<p>\nこんにちは！あなたは {SITE_URL} の Sharif Judge に {ROLE} として登録されました。\n</p>\n<p>\nあなたのユーザー名: {USERNAME}\n</p>\n<p>\nあなたのパスワード: {PASSWORD}\n</p>\n<p>\n以下のリンクからログインできます： <a href=\"{LOGIN_URL}\">{LOGIN_URL}</a>\n</p>\n"),
 				array('shj_key' => 'moss_userid',            'shj_value' => ''),
 				array('shj_key' => 'results_per_page_all',   'shj_value' => '200'),
 				array('shj_key' => 'results_per_page_final', 'shj_value' => '200'),
