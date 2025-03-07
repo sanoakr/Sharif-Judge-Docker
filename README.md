@@ -7,10 +7,10 @@
  * Python 3.12
  * Fix Password_hash.php with PHP password_hash() for PHP8
  * Initial Settings
- ** sendmail via smtp
- ** several inital setting
- ** tester, assingments and MariaDB data to docker volumes
- ** also see sample build script shj-build.sh
+   * sendmail via smtp
+   * several inital setting
+   * tester, assingments and MariaDB data to docker volumes
+   * also, see sample build script shj-build.sh and shj-test.conf
 
 # Sharif Judge
 
