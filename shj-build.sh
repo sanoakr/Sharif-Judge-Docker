@@ -38,7 +38,7 @@ docker build \
 
 # コンテナの起動
 echo "Run Docker container $SHJ_NAME from $DOCKER_IMAGE_NAME image"
-docker run -d --name Sharif-Judge-$SHJ_NAME \
+docker run -d --name sharif-judge-$SHJ_NAME \
    -p $PORT:80 \
    -v $MARIA_VOLUME:/var/lib/mysql \
    -v $SHJ_VOLUME:/var/shjdata \

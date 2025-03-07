@@ -68,4 +68,4 @@ ENV APACHE_RUN_USER=www-data \
     LANG=C
 
 # Set startup script
-#CMD ["/start.sh"]
+CMD ["/start.sh"]
