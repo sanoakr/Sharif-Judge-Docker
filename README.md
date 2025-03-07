@@ -4,7 +4,7 @@
  * MariaDB 16
  * GCC 13 
  * OpenJDK 21
- * Python 12
+ * Python 3.12
  * Fix Password_hash.php with PHP password_hash() for PHP8
  * Initial Settings
  ** sendmail via smtp
