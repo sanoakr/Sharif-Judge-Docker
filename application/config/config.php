@@ -295,7 +295,7 @@ $config['encryption_key'] = 'PLEASE_CHANGE_ME_TO_A_RANDOM_KEY';
 | 'sess_time_to_update'		= how many seconds between CI refreshing Session Information
 |
 */
-$config['sess_driver']			= 'cookie';
+$config['sess_driver']			= 'native';
 $config['sess_valid_drivers']	= array();
 $config['sess_cookie_name']		= 'shjsession';
 $config['sess_expiration']		= 7200;

@@ -1,3 +1,17 @@
+# Docker update
+ * Ubuntu 24.04
+ * PHP 8
+ * MariaDB 16
+ * GCC 13 
+ * OpenJDK 21
+ * Python 12
+ * Fix Password_hash.php with PHP password_hash() for PHP8
+ * Initial Settings
+ ** sendmail via smtp
+ ** several inital setting
+ ** tester, assingments and MariaDB data to docker volumes
+ ** also see sample build script shj-build.sh
+
 # Sharif Judge
 
 [Sharif Judge](https://github.com/mjnaderi/Sharif-Judge) is a free and open source online judge for C, C++, Java and

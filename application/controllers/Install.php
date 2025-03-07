@@ -131,13 +131,13 @@ class Install extends CI_Controller
 				'assignment'        => array('type' => 'SMALLINT', 'constraint' => 4, 'unsigned' => TRUE),
 				'id'                => array('type' => 'SMALLINT', 'constraint' => 4, 'unsigned' => TRUE),
 				'name'              => array('type' => 'VARCHAR', 'constraint' => 50, 'default' => ''),
-				'score'             => array('type' => 'INT', 'constraint' => 11),
+				'score'             => array('type' => 'INT', 'constraint' => 11, 'default' => 10),
 				'is_upload_only'    => array('type' => 'TINYINT', 'constraint' => 1, 'default' => '0'),
-				'c_time_limit'      => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'default' => 500),
-				'python_time_limit' => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'default' => 1500),
-				'java_time_limit'   => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'default' => 2000),
+				'c_time_limit'      => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'default' => 2000),
+				'python_time_limit' => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'default' => 5000),
+				'java_time_limit'   => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'default' => 5000),
 				'memory_limit'      => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'default' => 50000),
-				'allowed_languages' => array('type' => 'TEXT', 'default' => ''),
+				'allowed_languages' => array('type' => 'TEXT', 'default' => 'C,Python3,Zip,PDF'),
 				'diff_cmd'          => array('type' => 'VARCHAR', 'constraint' => 20, 'default' => 'diff'),
 				'diff_arg'          => array('type' => 'VARCHAR', 'constraint' => 20, 'default' => '-bB'),
 			);
@@ -195,13 +195,13 @@ class Install extends CI_Controller
 
 			// insert default settings to table 'settings'
 			$result = $this->db->insert_batch('settings', array(
-				array('shj_key' => 'timezone',               'shj_value' => 'Asia/Tehran'),
-				array('shj_key' => 'tester_path',            'shj_value' => '/home/shj/tester'),
-				array('shj_key' => 'assignments_root',       'shj_value' => '/home/shj/assignments'),
-				array('shj_key' => 'file_size_limit',        'shj_value' => '50'),
+				array('shj_key' => 'timezone',               'shj_value' => 'Asia/Tokyo'),
+				array('shj_key' => 'tester_path',            'shj_value' => '/var/shjdata/tester'),
+				array('shj_key' => 'assignments_root',       'shj_value' => '/var/shjdata/assignments'),
+				array('shj_key' => 'file_size_limit',        'shj_value' => '5000'),
 				array('shj_key' => 'output_size_limit',      'shj_value' => '1024'),
 				array('shj_key' => 'queue_is_working',       'shj_value' => '0'),
-				array('shj_key' => 'default_late_rule',      'shj_value' => "/* \n * Put coefficient (from 100) in variable \$coefficient.\n * You can use variables \$extra_time and \$delay.\n * \$extra_time is the total extra time given to users\n * (in seconds) and \$delay is number of seconds passed\n * from finish time (can be negative).\n *  In this example, \$extra_time is 172800 (2 days):\n */\n\nif (\$delay<=0)\n  // no delay\n  \$coefficient = 100;\n\nelseif (\$delay<=3600)\n  // delay less than 1 hour\n  \$coefficient = ceil(100-((30*\$delay)/3600));\n\nelseif (\$delay<=86400)\n  // delay more than 1 hour and less than 1 day\n  \$coefficient = 70;\n\nelseif ((\$delay-86400)<=3600)\n  // delay less than 1 hour in second day\n  \$coefficient = ceil(70-((20*(\$delay-86400))/3600));\n\nelseif ((\$delay-86400)<=86400)\n  // delay more than 1 hour in second day\n  \$coefficient = 50;\n\nelseif (\$delay > \$extra_time)\n  // too late\n  \$coefficient = 0;"),
+				array('shj_key' => 'default_late_rule',      'shj_value' => "/* \n * Put coefficient (from 100) in variable \$coefficient.\n * You can use variables \$extra_time and \$delay.\n * \$extra_time is the total extra time given to users\n * (in seconds) and \$delay is number of seconds passed\n * from finish time (can be negative).\n *  In this example, \$extra_time is 172800 (2 days):\n */\n\nif (\$delay<=0)\n  // no delay\n  \$coefficient = 100;\n\nelseif (\$delay<=60*60)\n  // delay less than 1 hour\n  \$coefficient = 80;\n\nelseif (\$delay<=\$extra_time)\n  // by the extra_time\n  \$coefficient = 50;\n\nelseif (\$delay > \$extra_time)\n  // too late\n  \$coefficient = 0;"),
 				array('shj_key' => 'enable_easysandbox',     'shj_value' => '1'),
 				array('shj_key' => 'enable_c_shield',        'shj_value' => '1'),
 				array('shj_key' => 'enable_cpp_shield',      'shj_value' => '1'),
@@ -212,14 +212,14 @@ class Install extends CI_Controller
 				array('shj_key' => 'submit_penalty',         'shj_value' => '300'),
 				array('shj_key' => 'enable_registration',    'shj_value' => '0'),
 				array('shj_key' => 'registration_code',      'shj_value' => '0'),
-				array('shj_key' => 'mail_from',              'shj_value' => 'shj@example.com'),
+				array('shj_key' => 'mail_from',              'shj_value' => 'shj@math.ryukoku.ac.jp'),
 				array('shj_key' => 'mail_from_name',         'shj_value' => 'Sharif Judge'),
-				array('shj_key' => 'reset_password_mail',    'shj_value' => "<p>\nSomeone requested a password reset for your Sharif Judge account at {SITE_URL}.\n</p>\n<p>\nTo change your password, visit this link:\n</p>\n<p>\n<a href=\"{RESET_LINK}\">Reset Password</a>\n</p>\n<p>\nThe link is valid for {VALID_TIME}. If you don't want to change your password, just ignore this email.\n</p>"),
-				array('shj_key' => 'add_user_mail',          'shj_value' => "<p>\nHello! You are registered in Sharif Judge at {SITE_URL} as {ROLE}.\n</p>\n<p>\nYour username: {USERNAME}\n</p>\n<p>\nYour password: {PASSWORD}\n</p>\n<p>\nYou can log in at <a href=\"{LOGIN_URL}\">{LOGIN_URL}</a>\n</p>"),
+				array('shj_key' => 'reset_password_mail',    'shj_value' => "<p>\n{SITE_URL} にあるあなたの Sharif Judge アカウントのパスワードリセットがリクエストされました。\n</p>\n<p>\nパスワードを変更するには、以下のリンクにアクセスしてください：\n</p>\n<p>\n<a href=\"{RESET_LINK}\">パスワードをリセット</a>\n</p>\n<p>\nこのリンクは {VALID_TIME} の間有効です。パスワードを変更する必要がない場合は、このメールを無視してください。\n</p>"),
+				array('shj_key' => 'add_user_mail',          'shj_value' => "<p>\nこんにちは！あなたは {SITE_URL} の Sharif Judge に {ROLE} として登録されました。\n</p>\n<p>\nあなたのユーザー名: {USERNAME}\n</p>\n<p>\nあなたのパスワード: {PASSWORD}\n</p>\n<p>\n以下のリンクからログインできます： <a href=\"{LOGIN_URL}\">{LOGIN_URL}</a>\n</p>\n");
 				array('shj_key' => 'moss_userid',            'shj_value' => ''),
-				array('shj_key' => 'results_per_page_all',   'shj_value' => '40'),
-				array('shj_key' => 'results_per_page_final', 'shj_value' => '80'),
-				array('shj_key' => 'week_start',             'shj_value' => '0'),
+				array('shj_key' => 'results_per_page_all',   'shj_value' => '200'),
+				array('shj_key' => 'results_per_page_final', 'shj_value' => '200'),
+				array('shj_key' => 'week_start',             'shj_value' => '1'),
 			));
 			if ( ! $result)
 				show_error("Error adding data to table ".$this->db->dbprefix('settings'));

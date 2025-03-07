@@ -1,7 +1,7 @@
 # @file shield_py3.py
 
 import sys
-sys.modules['os']=None
+#sys.modules['os']=None
 
 BLACKLIST = [
   #'__import__', # deny importing modules
