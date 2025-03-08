@@ -1,7 +1,7 @@
 # Docker update
  * Ubuntu 24.04
  * PHP 8
- * MariaDB 16
+ * MariaDB 10
  * GCC 13 
  * OpenJDK 21
  * Python 3.12
