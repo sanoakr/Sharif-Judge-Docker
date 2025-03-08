@@ -42,11 +42,14 @@ RUN rm -rf /var/www/html && \
     sed -i -e "s|'shj_value' => '/var/shjdata/assignments'|'shj_value' => '${SHJ_DATADIR}/assignments'|" /var/www/html/application/controllers/Install.php && \
     # base URI
     sed -i -e "s|\$config\['base_url'\]\s*=\s*'';|\$config['base_url'] = '${SHJ_URI}';|" /var/www/html/application/config/config.php && \
+    # Assignments default
+    sed -i -e "s|'score' => 100,|'score' => 10,|" /var/www/html/application/controllers/Assignments.php && \
+    sed -i -e "s|''allowed_languages' => 'C,C++,Python 2,Python 3,Java',|'allowed_languages' => 'C,Python 3,Java',|" /var/www/html/application/controllers/Assignments.php && \
     # Title
     sed -i -e "s|<h1 class=\"shjlogo-text\">Sharif <span>Judge</span></h1>|<h1 class=\"shjlogo-text\">Sharif <span>Judge</span> for ${SHJ_NAME}</h1>|" /var/www/html/application/views/templates/top_bar.twig && \
     # View debug for Awesome Font
-    sed -i -e "s|'fa-check|' fa-check|" /var/www/html/application/views/pages/assignments.twig && \
-    sed -i -e "s|'fa-check|' fa-check|" /var/www/html/application/views/pages/submissions.twig && \
+    sed -i -e "s|'fa-check-square-o color6' : 'fa-square-o'|' fa-check-square-o color6' : ' fa-square-o'|" /var/www/html/application/views/pages/assignments.twig && \
+    sed -i -e "s|'fa-check-circle-o color11' : 'fa-circle-o'|' fa-check-circle-o color11' : ' fa-circle-o'|" /var/www/html/application/views/pages/submissions.twig && \
     chmod 755 /var/www/html/application/cache/Twig
 
 # make startup script
