@@ -42,34 +42,28 @@ RUN rm -rf /var/www/html && \
     sed -i -e "s|'shj_value' => '/var/shjdata/assignments'|'shj_value' => '${SHJ_DATADIR}/assignments'|" /var/www/html/application/controllers/Install.php && \
     # base URI
     sed -i -e "s|\$config\['base_url'\]\s*=\s*'';|\$config['base_url'] = '${SHJ_URI}';|" /var/www/html/application/config/config.php && \
-    # Assignments default
-    sed -i -e "s|'score' => 100,|'score' => 10,|" /var/www/html/application/controllers/Assignments.php && \
-    sed -i -e "s|''allowed_languages' => 'C,C++,Python 2,Python 3,Java',|'allowed_languages' => 'C,Python 3,Java',|" /var/www/html/application/controllers/Assignments.php && \
     # Title
     sed -i -e "s|<h1 class=\"shjlogo-text\">Sharif <span>Judge</span></h1>|<h1 class=\"shjlogo-text\">Sharif <span>Judge</span> for ${SHJ_NAME}</h1>|" /var/www/html/application/views/templates/top_bar.twig && \
-    # View debug for Awesome Font
-    sed -i -e "s|'fa-check-square-o color6' : 'fa-square-o'|' fa-check-square-o color6' : ' fa-square-o'|" /var/www/html/application/views/pages/assignments.twig && \
-    sed -i -e "s|'fa-check-circle-o color11' : 'fa-circle-o'|' fa-check-circle-o color11' : ' fa-circle-o'|" /var/www/html/application/views/pages/submissions.twig && \
     chmod 755 /var/www/html/application/cache/Twig
 
 # make startup script
 RUN echo "#!/bin/bash" > /start.sh && \
-   # copy Sharif-Judge tester & assignments datadir
-   echo "mkdir -p ${SHJ_DATADIR}" >> start.sh && \
-   echo "if [ ! -d ${SHJ_DATADIR}/tester ]; then cp -r /var/www/html/tester ${SHJ_DATADIR}/; fi" >> /start.sh && \
-   echo "if [ ! -d ${SHJ_DATADIR}/assignments ]; then cp -r /var/www/html/assignments ${SHJ_DATADIR}/; fi" >> /start.sh && \
-   echo "chown -R www-data:www-data /var/shjdata" >> /start.sh && \
-   # initi database
-   echo "mkdir -p /run/mysqld; chown -R mysql:mysql /run/mysqld" >> /start.sh && \
-   echo "if [ -d ${MARIA_DATADIR}/mysql ]; then chown -R mysql:mysql ${MARIA_DATADIR}; mariadb-install-db --user=mysql --datadir=${MARIA_DATADIR}; fi" >> /start.sh && \
-   echo "if [ -f /tmp/mysql-init ]; then mysqld --init-file=/tmp/mysql-init --user=mysql &" >> /start.sh && \
-   echo "sleep 10; mysqladmin --silent --wait=30 ping || exit 1" >> /start.sh && \
-   echo "rm -f /tmp/mysql-init; fi" >> /start.sh && \
-   # Start Servers
-   echo "mysqld_safe --user=mysql &" >> /start.sh && \
-   echo "mysqladmin --silent --wait=30 ping || exit 1" >> /start.sh && \
-   echo "apache2 -D FOREGROUND" >> /start.sh && \
-   chmod +x /start.sh
+    # copy Sharif-Judge tester & assignments datadir
+    echo "mkdir -p ${SHJ_DATADIR}" >> start.sh && \
+    echo "if [ ! -d ${SHJ_DATADIR}/tester ]; then cp -r /var/www/html/tester ${SHJ_DATADIR}/; fi" >> /start.sh && \
+    echo "if [ ! -d ${SHJ_DATADIR}/assignments ]; then cp -r /var/www/html/assignments ${SHJ_DATADIR}/; fi" >> / start.sh && \
+    echo "chown -R www-data:www-data /var/shjdata" >> /start.sh && \
+    # initi database
+    echo "mkdir -p /run/mysqld; chown -R mysql:mysql /run/mysqld" >> /start.sh && \
+    echo "if [ -d ${MARIA_DATADIR}/mysql ]; then chown -R mysql:mysql ${MARIA_DATADIR}; mariadb-install-db  --user=mysql --datadir=${MARIA_DATADIR}; fi" >> /start.sh && \
+    echo "if [ -f /tmp/mysql-init ]; then mysqld --init-file=/tmp/mysql-init --user=mysql &" >> /start.sh && \
+    echo "sleep 10; mysqladmin --silent --wait=30 ping || exit 1" >> /start.sh && \
+    echo "rm -f /tmp/mysql-init; fi" >> /start.sh && \
+    # Start Servers
+    echo "mysqld_safe --user=mysql &" >> /start.sh && \
+    echo "mysqladmin --silent --wait=30 ping || exit 1" >> /start.sh && \
+    echo "apache2 -D FOREGROUND" >> /start.sh && \
+    chmod +x /start.sh
 
 # http port
 EXPOSE 80
