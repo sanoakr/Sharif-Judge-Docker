@@ -1239,6 +1239,18 @@ class CI_Email {
 	 */
 	protected function _build_message()
 	{
+		// 非ASCII（日本語など）が本文に含まれる場合、charset を UTF-8 に強制
+		// 既存の設定や config が iso-8859-1 のままでも、本文が UTF-8 の場合に
+		// Content-Type の charset を正しく UTF-8 にします。
+		if (strtoupper($this->charset) !== 'UTF-8')
+		{
+			$candidate = $this->_body.(string) $this->alt_message;
+			if ($candidate !== '' && preg_match('/[^\x00-\x7F]/', $candidate))
+			{
+				$this->charset = 'UTF-8';
+			}
+		}
+
 		if ($this->wordwrap === TRUE && $this->mailtype !== 'html')
 		{
 			$this->_body = $this->word_wrap($this->_body);
