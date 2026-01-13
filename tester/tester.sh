@@ -517,7 +517,7 @@ for((i=1;i<=TST;i++)); do
 	fi
 
 
-	if [ $EXITCODE -ne 0 ]; then
+	if [ $EXITCODE -ne 0 ] && [ $EXITCODE -ne -1 ] && [ $EXITCODE -ne 1 ]; then
 		shj_log "Runtime Error"
 		echo "<span class=\"shj_o\">Runtime Error</span>" >>$PROBLEMPATH/$UN/result.html
 		continue
